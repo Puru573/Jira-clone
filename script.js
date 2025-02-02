@@ -5,7 +5,6 @@ let rootdiv = document.querySelector(".modal-root");
 let navColor=document.querySelector(".color-container");
 let reseBtn=document.querySelector(".resetbtn");
 let closeBtn=document.querySelector(".closebtn");
-
 let textAreaValue;
 let selectedColor;
 let navSelectedColor;
@@ -15,6 +14,8 @@ let count=0;
 let finalColor;
 let totalTickets=[];
 let savedTickets=[];
+let uuid = Math.ceil((Math.random() + 1) * 100);
+
 
 
 // Show modal to write text and select color
@@ -66,7 +67,6 @@ rootdiv.addEventListener("click", (e) => {
 // Create tickets when Shift key is pressed
 document.addEventListener("keydown", (e) => {
     if (e.key === "Shift") {
-        let uuid = Math.ceil((Math.random() + 1) * 100);
         let textarea = document.querySelector("textarea");
         textAreaValue = textarea.value;
 
@@ -80,9 +80,13 @@ document.addEventListener("keydown", (e) => {
 
         // Create the new ticket div
         let divTickets = document.createElement("div");
+        let editTicketDiv=document.createElement("div");
         let ticketstrap=document.createElement("div");
         ticketstrap.setAttribute("class","ticket-strap");
         ticketstrap.setAttribute("contenteditable","false");
+        editTicketDiv.setAttribute("class","editTicket");
+        editTicketDiv.setAttribute("contenteditable", "false");
+        editTicketDiv.innerHTML += textAreaValue; // Append the text content
         ticketstrap.innerText=uuid;
         // ticketstrap.innerHTML+=ti
         divTickets.setAttribute("class", "tickets");
@@ -102,8 +106,7 @@ document.addEventListener("keydown", (e) => {
 
         divTickets.appendChild(lockBtn);
 
-        divTickets.innerHTML += textAreaValue; // Append the text content
-
+        divTickets.appendChild(editTicketDiv);
         ticketdiv.appendChild(divTickets);
         savedTickets.push({
             id:uuid,
@@ -113,28 +116,51 @@ document.addEventListener("keydown", (e) => {
 
         localStorage.setItem("tickets",JSON.stringify(savedTickets));
         // Initially make the ticket non-editable
-        divTickets.setAttribute("contenteditable", "false");
 
     }
 });
+
+function updateLocalStorage(){
+    localStorage.setItem("tickets", JSON.stringify(savedTickets));
+
+}
+function handleInput(e) {
+    // Identify which ticket was edited by looking at its closest .tickets parent
+    let ticketDiv = e.target.closest(".tickets");
+    let ticketId = Number(ticketDiv.id);  // Convert ID string to a number (if needed)
+    let updatedValue = e.target.innerText;
+  
+    // Find the ticket in your savedTickets array and update it
+    let ticketIndex = savedTickets.findIndex((t) => t.id === ticketId);
+    if (ticketIndex !== -1) {
+      savedTickets[ticketIndex].value = updatedValue;
+      updateLocalStorage();
+    }
+  }
         // Attach the click event listener to toggle lock state after ticket creation
 
 ticketdiv.addEventListener("click", (e) => {
     if (e.target && e.target.classList.contains("lockbtn")) {
         let lockBtn = e.target;
+        console.log("lockbtnn",lockBtn);
         let divTickets = lockBtn.parentElement; // The parent ticket div  coz we can change the contentediable
+        let editTicket = divTickets.querySelector(".editTicket");
 
         let locbtnvalue = lockBtn.getAttribute("data-set");
         if (locbtnvalue === "true") {
             lockBtn.innerText = "lock_open"; // Change to unlock icon
             lockBtn.setAttribute("data-set", "false"); // Mark as unlocked
             // Make the ticket editable when unlocked
-            divTickets.setAttribute("contenteditable", "true");
+            editTicket.setAttribute("contenteditable", "true");
+            editTicket.addEventListener("input", handleInput);  //type hoga tbhi jayega immediate invoke se bachayega
+
         } else {
             lockBtn.innerText = "lock"; // Change back to lock icon
             lockBtn.setAttribute("data-set", "true"); // Mark as locked
             // Make the ticket non-editable when locked
-            divTickets.setAttribute("contenteditable", "false");
+            editTicket.setAttribute("contenteditable", "false");
+            editTicket.removeEventListener("input", handleInput);
+
         }
     }
 });
@@ -187,13 +213,14 @@ document.addEventListener("click",(e)=>{
                 ticketStrap.style.backgroundColor=finalColor;
         }
     }
-    else if(e.target.classList.contains("tickets")){
+    else if(e.target.classList.contains("editTicket")){
+        let latestTicket=e.target.parentElement;
         let removedId;
         tickets.forEach((ticket)=>{
             totalTickets.push(ticket);
         })
         if(closeBtn.classList.contains("active")){
-            let selectedTickets=e.target.id;
+            let selectedTickets=latestTicket.id;
             totalTickets.forEach((item)=>{
                 if(item.id===selectedTickets){
                     removedId=item.id;
@@ -220,10 +247,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(ticketshtml){
         ticketshtml.forEach((item)=>{
             let allSavedTickets=`
-            <div class="tickets" id="${item.id}" contenteditable="false">
+            <div class="tickets" id="${item.id}">
             <div class="ticket-strap" contenteditable="false" style="background-color: ${item.selectedColor?item.selectedColor:"black"}; color: white;">${item.id}</div>
             <span class="material-icons lockbtn" data-set="true">lock</span>
-            ${item.value}
+            <div class="editTicket" contenteditable="false">${item.value}</div>
             </div>
             `;
             ticketdiv.innerHTML+=allSavedTickets;

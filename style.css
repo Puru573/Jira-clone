@@ -176,6 +176,8 @@ textarea::placeholder{
     min-width: 100px;
     border: 2px solid black;
     position: relative;
+    max-height: 250px;
+    overflow-y: auto;
 }
 .ticketdiv{
     display: flex;
@@ -207,6 +209,15 @@ cursor: pointer;
 .resetbtn:hover{
     background-color: lightgreen;
 }
+.editTicket {
+    height: 200px;
+    overflow-y: auto;
+    outline: none; 
+
+}
+.editTicket {
+    white-space: pre-wrap;
+  }
 /* on mobile view */
 @media (min-width:831px) and (max-width:1231px) {
     .tickets{
