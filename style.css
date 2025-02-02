@@ -1,0 +1,232 @@
+*{
+    box-sizing: border-box;
+}
+html,body{
+    padding: 0;
+    margin: 0;
+}
+.navbar{
+    display: flex;
+    height: 4.5rem;
+    gap:4rem;
+    background-color: lightgrey;
+    align-items: center;
+}
+.color-container{
+    height: 55px;
+    width: 300px;
+    border:1px solid black;
+    margin:8px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: beige;
+}
+.blue-colors{
+    background-color: blue;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.blue-colors:Hover,
+.red-colors:hover,
+.black-colors:hover,
+.orange-colors:hover
+{
+    border:3px solid black;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.red-colors{
+    background-color: red;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.orange-colors{
+    background-color: orange;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.black-colors{
+    background-color: black;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.add-close{
+    display: flex;
+    align-items: center;
+    gap:5px;
+}
+.add{
+    height:2.5rem;
+    width: 2.5rem;
+    border: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.add:hover{
+    background-color: aliceblue;
+}
+.close{
+    height:2.5rem;
+    width: 2.5rem;
+    border: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+.close:hover{
+    background-color: aliceblue;
+}
+.addbtn{
+    font-weight: bold;
+    font-size: 2rem !important;
+}
+
+.closebtn{
+    font-weight: bold;
+    font-size: 2rem !important;
+}
+.closebtn.active{
+    color:red;
+}
+
+.ticket-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: translateY(300px);
+    z-index: 1;
+}
+textarea{
+    height: 400px;
+    width: 650px;
+    border: 3px solid black;
+    background-color: lightgray;
+    font-size: 1.5rem;
+}
+textarea::placeholder{
+    font-size: 1.5rem;
+}
+.modal-color{
+    height: 400px;
+    width: 80px;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: beige;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.modal-root{
+    display: flex;
+    position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.blue-color-box{
+    background-color: blue;
+    height: 2.5rem;
+    width: 3rem;
+}
+.red-color-box{
+    background-color: red;
+    height: 2.5rem;
+    width: 3rem;
+}
+
+.orange-color-box{
+    background-color: orange;
+    height: 2.5rem;
+    width: 3rem;
+}
+
+.black-color-box{
+    background-color: black;
+    height: 2.5rem;
+    width: 3rem;
+}
+.blue-color-box:Hover,
+.red-color-box:hover,
+.black-color-box:hover,
+.orange-color-box:hover
+{
+    border:3px solid black;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.blue-color-box.active,
+.red-color-box.active,
+.black-color-box.active,
+.orange-color-box.active
+{
+    border:3px solid black;
+}
+.tickets{
+    height: 230px;
+    width: 24%;
+    min-height: 100px;
+    min-width: 100px;
+    border: 2px solid black;
+    position: relative;
+}
+.ticketdiv{
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 1rem;
+    /* transform: translateX(5px); */
+}
+.lockbtn{
+position: absolute;
+bottom: 0;
+right:0;
+padding: 2px;
+cursor: pointer;
+}
+.ticket-strap{
+    height: 20px;
+    width: 100%;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.resetbtn{
+    background-color: green;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 5%;
+}
+.resetbtn:hover{
+    background-color: lightgreen;
+}
+/* on mobile view */
+@media (min-width:831px) and (max-width:1231px) {
+    .tickets{
+        width: 49%;
+    }
+}
+@media (max-width:580px) {
+    .navbar{
+        gap:1rem;
+        padding: 2px;
+    }
+}
+@media (max-width:830px) {
+    textarea{
+        width: 100% !important;
+    }
+    .tickets{
+        width: 100%;
+    }
+    .ticketdiv{
+        transform: translateX(0px);
+    }
+}
