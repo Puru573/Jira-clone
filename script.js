@@ -14,7 +14,6 @@ let count=0;
 let finalColor;
 let totalTickets=[];
 let savedTickets=[];
-let uuid = Math.ceil((Math.random() + 1) * 100);
 
 
 
@@ -68,6 +67,7 @@ rootdiv.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
     if (e.key === "Shift") {
         let textarea = document.querySelector("textarea");
+        let uuid = Math.ceil((Math.random() + 1) * 100);
         textAreaValue = textarea.value;
 
         // Remove modal
@@ -215,18 +215,18 @@ document.addEventListener("click",(e)=>{
     }
     else if(e.target.classList.contains("editTicket")){
         let latestTicket=e.target.parentElement;
-        let removedId;
         tickets.forEach((ticket)=>{
             totalTickets.push(ticket);
         })
         if(closeBtn.classList.contains("active")){
             let selectedTickets=latestTicket.id;
+            // ui update i.e dom
             totalTickets.forEach((item)=>{
                 if(item.id===selectedTickets){
-                    removedId=item.id;
                     item.remove();
                 }
             })
+            //localStorage updation
             let filteredTickets = savedTickets.filter((item) => String(item.id) != String(removedId));
             savedTickets=filteredTickets; //updation is necessary
             localStorage.setItem("tickets", JSON.stringify(savedTickets));
